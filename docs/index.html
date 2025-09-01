@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blue-Collar Internship Program</title>
+    <script src="https://cdn.tailwindcss.com/3.3.3"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #ffffff 0%, #e0f2fe 50%, #b3e5fc 100%);
+            color: #1565c0;
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        .section-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(33, 150, 243, 0.2);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 4px 20px rgba(33, 150, 243, 0.08);
+        }
+        
+        .section-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(33, 150, 243, 0.15);
+            border-color: rgba(33, 150, 243, 0.4);
+        }
+        
+        .highlight-blue {
+            color: #1976d2;
+            transition: color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        .nav-link {
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #2196f3;
+            transition: width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .nav-link:hover {
+            transform: translateY(-1px);
+        }
+        
+        .mobile-menu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s ease;
+            opacity: 0;
+        }
+        
+        .mobile-menu.active {
+            max-height: 500px;
+            opacity: 1;
+        }
+        
+        .tech-pill {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background-color: rgba(33, 150, 243, 0.1);
+            border: 1px solid rgba(33, 150, 243, 0.3);
+            border-radius: 9999px;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            color: #1565c0;
+            cursor: pointer;
+        }
+        
+        .tech-pill:hover {
+            background-color: rgba(33, 150, 243, 0.2);
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 4px 12px rgba(33, 150, 243, 0.2);
+        }
+        
+        .section-image {
+            width: 300px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(33, 150, 243, 0.15);
+            margin: 1rem auto;
+            display: block;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        .section-image:hover {
+            transform: translateY(-4px) scale(1.03);
+            box-shadow: 0 12px 30px rgba(33, 150, 243, 0.25);
+        }
+        
+        .horizontal-images {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .horizontal-images .section-image {
+            margin: 0;
+            width: 250px;
+            height: 167px;
+            border-radius: 10px;
+        }
+        
+        .hero-image {
+            width: 400px;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(33, 150, 243, 0.2);
+            margin: 1rem auto;
+            display: block;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        .hero-image:hover {
+            transform: translateY(-6px) scale(1.02);
+            box-shadow: 0 16px 40px rgba(33, 150, 243, 0.3);
+        }
+        
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .logo-container img {
+            height: 50px;
+            width: auto;
+            object-fit: contain;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            filter: drop-shadow(0 4px 8px rgba(33, 150, 243, 0.1));
+        }
+        
+        .logo-container img:hover {
+            transform: translateY(-2px) scale(1.05);
+            filter: drop-shadow(0 8px 16px rgba(33, 150, 243, 0.2));
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-blue-200 shadow-sm">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="text-xl font-bold">
+                <span class="highlight-blue">Blue-Collar</span> Internship
+            </div>
+            
+            <div class="hidden md:flex space-x-8">
+                <a href="#overview" class="nav-link text-blue-700 hover:text-blue-900">Overview</a>
+                <a href="#content" class="nav-link text-blue-700 hover:text-blue-900">Core Content</a>
+                <a href="#achievements" class="nav-link text-blue-700 hover:text-blue-900">Achievements</a>
+                <a href="#growth" class="nav-link text-blue-700 hover:text-blue-900">Growth</a>
+            </div>
+            
+            <button id="mobileMenuButton" class="md:hidden text-blue-600">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="md:hidden mobile-menu bg-white/95">
+            <div class="container mx-auto px-4 py-2 flex flex-col space-y-3">
+                <a href="#overview" class="py-2 border-b border-blue-200 text-blue-700">Overview</a>
+                <a href="#content" class="py-2 border-b border-blue-200 text-blue-700">Core Content</a>
+                <a href="#achievements" class="py-2 border-b border-blue-200 text-blue-700">Achievements</a>
+                <a href="#growth" class="py-2 text-blue-700">Growth</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative py-12 px-4">
+        <div class="container mx-auto relative z-10 text-center">
+            <h1 class="text-4xl md:text-6xl font-bold mb-6">
+                <span class="highlight-blue">Aircraft Maintenance</span><br>
+                Engineering Internship
+            </h1>
+            <div class="logo-container">
+                <img src="photo/中欧航空工程师学院logo.png" alt="Sino-European Institute of Aviation Engineering" title="中欧航空工程师学院">
+            </div>
+            <p class="text-xl md:text-2xl text-blue-600 max-w-3xl mx-auto">
+                Professional development program at GAMECO focusing on MRO processes and engineering solutions
+            </p>
+        </div>
+    </header>
+
+    <!-- Overview Section -->
+    <section id="overview" class="py-12 px-4">
+        <div class="container mx-auto">
+            <div class="section-card rounded-xl p-6 mb-8">
+                <h2 class="text-3xl font-bold mb-6 flex items-center">
+                    <i class="fas fa-info-circle mr-3 highlight-blue"></i>
+                    Basic Internship Information
+                </h2>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <div class="mb-4">
+                            <h3 class="text-lg font-semibold mb-2 highlight-blue">Company</h3>
+                            <p class="text-blue-600">Guangzhou Aircraft Maintenance Engineering Co., Ltd. (GAMECO)</p>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h3 class="text-lg font-semibold mb-2 highlight-blue">Department</h3>
+                            <p class="text-blue-600">Cabin Engineering Department, Engineering Division</p>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="mb-4">
+                            <h3 class="text-lg font-semibold mb-2 highlight-blue">Internship Period</h3>
+                            <p class="text-blue-600">2025.7.14 — 2025.8.8</p>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h3 class="text-lg font-semibold mb-2 highlight-blue">Reporting Person</h3>
+                            <p class="text-blue-600">Li Jialin</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Core Content Section -->
+    <section id="content" class="py-12 px-4 bg-blue-50/50">
+        <div class="container mx-auto">
+            <div class="section-card rounded-xl p-6 mb-8">
+                <h2 class="text-3xl font-bold mb-6 flex items-center">
+                    <i class="fas fa-tasks mr-3 highlight-blue"></i>
+                    Core Internship Content
+                </h2>
+                
+                <div class="grid md:grid-cols-3 gap-4">
+                    <div class="bg-white/80 p-4 rounded-lg border border-blue-200 hover:border-blue-400 transition-all duration-400 shadow-md hover:shadow-xl transform hover:scale-[1.02] hover:-translate-y-2" style="transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);">
+                        <div class="text-3xl mb-3 highlight-blue transform transition-transform duration-300 hover:scale-110">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold mb-2 text-blue-800">MRO Work Card Preparation</h3>
+                        <div class="mb-3">
+                            <img src="photo/图片1.png" alt="MRO Work Card Preparation" class="section-image" style="width: 280px; height: 187px;">
+                        </div>
+                        <p class="text-blue-600 text-sm">
+                            Complying with AMM/CMM manual standards, completed structured work card preparation including header information, work steps, and tool lists
+                        </p>
+                    </div>
+                    
+                    <div class="bg-white/80 p-4 rounded-lg border border-blue-200 hover:border-blue-400 transition-all duration-400 shadow-md hover:shadow-xl transform hover:scale-[1.02] hover:-translate-y-2" style="transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);">
+                        <div class="text-3xl mb-3 highlight-blue transform transition-transform duration-300 hover:scale-110">
+                            <i class="fas fa-archive"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold mb-2 text-blue-800">Aviation Maintenance Document Management</h3>
+                        <div class="mb-3">
+                            <img src="photo/图片3.png" alt="Aviation Maintenance Document Management" class="section-image" style="width: 280px; height: 187px;">
+                        </div>
+                        <p class="text-blue-600 text-sm">
+                            Designed and implemented AI-based technical solution archiving system (TechSolution Archive) supporting email parsing, classification, and fuzzy search
+                        </p>
+                    </div>
+                    
+                    <div class="bg-white/80 p-4 rounded-lg border border-blue-200 hover:border-blue-400 transition-all duration-400 shadow-md hover:shadow-xl transform hover:scale-[1.02] hover:-translate-y-2" style="transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);">
+                        <div class="text-3xl mb-3 highlight-blue transform transition-transform duration-300 hover:scale-110">
+                            <i class="fas fa-cube"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold mb-2 text-blue-800">Cabin Structure Modeling & Simulation</h3>
+                        <div class="mb-3">
+                            <img src="photo/图片4.png" alt="Cabin Structure Modeling & Simulation" class="section-image" style="width: 280px; height: 187px;">
+                        </div>
+                        <p class="text-blue-600 text-sm">
+                            Completed 3D modeling of A320 cabin connecting pins using CATIA V5, conducted static structural simulation comparing 2024-T351 and 7075-T651 aluminum alloys
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Achievements Section -->
+    <section id="achievements" class="py-12 px-4">
+        <div class="container mx-auto">
+            <div class="section-card rounded-xl p-6">
+                <h2 class="text-3xl font-bold mb-6 flex items-center">
+                    <i class="fas fa-trophy mr-3 highlight-blue"></i>
+                    Key Technical Achievements
+                </h2>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="text-xl font-semibold mb-3 highlight-blue">Technical Solution Archive System</h3>
+                        <div class="mb-3">
+                            <img src="photo/图片2.png" alt="Technical Solution Archive System - Interface" class="section-image" style="width: 280px; height: 187px;">
+                        </div>
+                        <div class="mb-3">
+                            <img src="photo/图片5.png" alt="Technical Solution Archive System - Process" class="section-image" style="width: 280px; height: 187px;">
+                        </div>
+                        <p class="text-blue-600 mb-4 text-sm">
+                            Developed using HaiSnap no-code platform, featuring GLM-4-Flash-250414 model for email content parsing, automatic form filling, and multi-dimensional classification
+                        </p>
+                            <div class="flex flex-wrap">
+                            <span class="tech-pill">HaiSnap</span>
+                            <span class="tech-pill">GLM-4-Flash</span>
+                            <span class="tech-pill">Email Parsing</span>
+                            <span class="tech-pill">Fuzzy Search</span>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-xl font-semibold mb-4 highlight-blue">Material Selection Report</h3>
+                        <div class="mb-3">
+                            <img src="photo/图片6.png" alt="Material Selection Report - Simulation" class="section-image" style="width: 280px; height: 187px;">
+                        </div>
+                        <div class="mb-3">
+                            <img src="photo/图片8.png" alt="Material Selection Report - Analysis" class="section-image" style="width: 280px; height: 187px;">
+                        </div>
+                        <p class="text-blue-600 mb-4 text-sm">
+                            2024-T351 aluminum alloy reaches 326MPa stress under 1200N load, exceeding yield strength of 325MPa, achieving controlled fracture protection mechanism
+                        </p>
+                        <div class="flex flex-wrap">
+                            <span class="tech-pill">2024-T351</span>
+                            <span class="tech-pill">7075-T651</span>
+                            <span class="tech-pill">Structural Simulation</span>
+                            <span class="tech-pill">Material Science</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-8">
+                    <h3 class="text-xl font-semibold mb-3 highlight-blue">Engineering Software Proficiency</h3>
+                    <div class="horizontal-images" style="gap: 1rem;">
+                        <img src="photo/图片5.png" alt="CATIA Modeling" class="section-image" style="width: 220px; height: 147px;">
+                        <img src="photo/图片7.png" alt="Structural Simulation" class="section-image" style="width: 220px; height: 147px;">
+                        <img src="photo/图片8.png" alt="JSON Parsing" class="section-image" style="width: 220px; height: 147px;">
+                    </div>
+                    <p class="text-blue-600 text-sm">
+                        Acquired skills in CATIA modeling, static structural simulation, and JSON parsing for work card documents
+                    </p>
+                    
+                    <div class="flex flex-wrap mt-3">
+                        <span class="tech-pill">CATIA V5</span>
+                        <span class="tech-pill">3D Modeling</span>
+                        <span class="tech-pill">Static Analysis</span>
+                        <span class="tech-pill">JSON Parsing</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Growth Section -->
+    <section id="growth" class="py-12 px-4 bg-blue-50/50">
+        <div class="container mx-auto">
+            <div class="section-card rounded-xl p-6">
+                <h2 class="text-3xl font-bold mb-6 flex items-center">
+                    <i class="fas fa-chart-line mr-3 highlight-blue"></i>
+                    Industry Insights & Personal Growth
+                </h2>
+                
+                <div class="grid md:grid-cols-3 gap-4">
+                    <div>
+                        <div class="text-4xl mb-4 highlight-blue transform transition-all duration-300 hover:scale-110 hover:rotate-3">
+                            <i class="fas fa-plane"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-3 text-blue-800 transition-colors duration-300 hover:text-blue-600">Aviation Industry</h3>
+                        <p class="text-blue-600">
+                            Gained understanding of civil aviation MRO processes and airworthiness regulatory requirements
+                        </p>
+                    </div>
+                    
+                    <div>
+                        <div class="text-4xl mb-4 highlight-blue transform transition-all duration-300 hover:scale-110 hover:rotate-3">
+                            <i class="fas fa-tools"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-3 text-blue-800 transition-colors duration-300 hover:text-blue-600">Technical Skills</h3>
+                        <p class="text-blue-600">
+                            Enhanced engineering software operation and technical document management capabilities
+                        </p>
+                    </div>
+                    
+                    <div>
+                        <div class="text-4xl mb-4 highlight-blue transform transition-all duration-300 hover:scale-110 hover:rotate-3">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-3 text-blue-800 transition-colors duration-300 hover:text-blue-600">Engineering Mindset</h3>
+                        <p class="text-blue-600">
+                            Developed engineering thinking balancing "safety redundancy" and "cost control"
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-6 px-4 bg-blue-900 text-blue-100">
+        <div class="container mx-auto text-center">
+            <div class="logo-container mb-4" style="gap: 1rem; margin: 1rem 0;">
+                <img src="photo/中欧航空工程师学院logo.png" alt="Sino-European Institute of Aviation Engineering" title="中欧航空工程师学院" style="filter: brightness(0) invert(1); opacity: 0.8;">
+            </div>
+            <p>© 2025 Blue-Collar Internship Program. All rights reserved.</p>
+            <p class="mt-2 text-sm">Created by <a href="https://zws-cauc226040072.haisnap.com/" target="_blank" class="text-blue-300 hover:underline transition-colors duration-300">Daniel</a> </p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobileMenuButton').addEventListener('click', function() {
+            document.getElementById('mobileMenu').classList.toggle('active');
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    const mobileMenu = document.getElementById('mobileMenu');
+                    if (mobileMenu.classList.contains('active')) {
+                        mobileMenu.classList.remove('active');
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
